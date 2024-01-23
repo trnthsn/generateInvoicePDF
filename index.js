@@ -22,16 +22,15 @@ app.post('/generate_invoice', async (req, res) => {
 });
 
 async function generatePDF(html) {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   await page.setContent(html);
   
   const buffer = await page.pdf({
     format: 'A4',
-    scale: 1.25,
+    scale: 1.2,
     margin: {top: 25},
     displayHeaderFooter: true,
-    preferCSSPageSize: true,
     footerTemplate: `
     <p style="margin: auto;font-size: 12px;">
       <span class="pageNumber"></span>
@@ -41,7 +40,7 @@ async function generatePDF(html) {
     `
   });
 
-  // await browser.close();
+  await browser.close();
 
   return buffer;
 }
