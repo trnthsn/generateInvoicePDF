@@ -156,11 +156,11 @@ function generateInvoiceHTML(building) {
               <p style="margin: 4px 0">${address_line_2}</p>
             </div>
             <div style="width: 33%" align="center">
-              <p style="font-weight: bold">Facturenlijst - grootboekrekening</p>
-              <p>${date_start} - ${date_end}</p>
+              <p style="font-weight: bold; margin: 4px 0">Facturenlijst - grootboekrekening</p>
+              <p style="margin: 4px 0">${date_start} - ${date_end}</p>
             </div>
             <div style="width: 33%" align="right">
-              <p style="font-weight: bold">${export_date}</p>
+              <p style="font-weight: bold; margin: 4px 0">${export_date}</p>
             </div>
           </div>
           <div>
