@@ -27,14 +27,13 @@ async function generatePDF(html) {
   await page.setContent(html);
   
   const buffer = await page.pdf({
-    format: 'A4',
-    scale: 1.2,
-    margin: {top: 25},
+    format: 'A5',
+    margin: {top: 25, bottom: 25},
     displayHeaderFooter: true,
     footerTemplate: `
-    <p style="margin: auto;font-size: 12px;">
-      <span class="pageNumber"></span>
-        /
+    <p style="display:block; margin: auto;font-size: 8px;">
+      Pagina <span class="pageNumber"></span>
+        van
       <span class="totalPages"></span>
     </p>
     `
@@ -50,10 +49,10 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td align="left">${allocation.invoice_date}</td>
-          <td align="left">${allocation.invoice_number}</td>
-          <td align="left">${allocation.supplier_name}</td>
-          <td style="width: 190px; word-wrap: break-word" align="left">${allocation.description}</td>
+          <td style="width: 64px;"align="left">${allocation.invoice_date}</td>
+          <td style="width: 76px;" align="left">${allocation.invoice_number}</td>
+          <td style="width: 76px; word-wrap: break-word" align="left">${allocation.supplier_name}</td>
+          <td style="width: 140px; word-wrap: break-word" align="left">${allocation.description}</td>
           <td style="width: 72px; padding-right: 8px;" align="right">&euro;${allocation.vat_amount}</td>
           <td style="width: 72px; padding-left: 4px" align="right" >&euro;${allocation.total}</td>
       </tr>
@@ -102,35 +101,12 @@ function generateInvoiceHTML(building) {
   const invoiceHTML = `
   <html>
   <style>
-    @page:first {
-      margin: 0;
-    }
-    #header,
-    #footer {
-      padding: 0 !important;
-    }
-    html,
-    body,
-    div,
-    span,
-    applet,
-    object,
-    iframe,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font-size: 100%;
+    @page {
+      margin: 15px;
     }
   </style>
-
   <body style="display: flex; justify-content: center; align-items: center">
-    <div style="width: 595px; height: 842px" className='invoice'>
+    <div style="margin: 10px; width: 595px; height: 842px" className='invoice'>
       <div
         style="
           display: flex;
