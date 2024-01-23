@@ -52,8 +52,8 @@ function generateAllocationsTable(allocations) {
           <td style="width: 76px; vertical-align: top; line-height: 10px;" align="left">${allocation.invoice_number}</td>
           <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.supplier_name}</td>
           <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.description}</td>
-          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Sans Condensed'" align="right">&euro;${allocation.vat_amount}</td>
-          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Sans Condensed'" align="right" >&euro;${allocation.total}</td>
+          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right">&euro;${allocation.vat_amount}</td>
+          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right" >&euro;${allocation.total}</td>
       </tr>
       `;
   }
@@ -101,7 +101,7 @@ function generateInvoiceHTML(building) {
   <html>
   <style>
     @import url(https://fonts.googleapis.com/css?family=Inter)
-    @import url(https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed)
+    @import url(https://fonts.googleapis.com/css?family=IBM Plex Mono)
     @page {
       margin: 15px;
     }
