@@ -24,11 +24,10 @@ app.post('/generate_invoice', async (req, res) => {
 async function generatePDF(html) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
-  await page.setContent(html);
-  
+  await page.setContent(html)
   const buffer = await page.pdf({
     format: 'A5',
-    margin: {top: 25, bottom: 25},
+    margin: { top: 25, bottom: 25 },
     displayHeaderFooter: true,
     footerTemplate: `
     <p style="display:block; margin: auto; font-size: 8px; margin-top: 20px; font-family: 'Inter'">
@@ -100,9 +99,9 @@ function generateInvoiceHTML(building) {
 
   const invoiceHTML = `
   <html>
-  <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
-  <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
   <style>
+    @import url(https://fonts.googleapis.com/css?family=Inter)
+    @import url(https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed)
     @page {
       margin: 15px;
     }
