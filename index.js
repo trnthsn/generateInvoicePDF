@@ -29,6 +29,16 @@ async function generatePDF(html) {
   const buffer = await page.pdf({
     format: 'A4',
     scale: 1.25,
+    margin: {top: 25},
+    displayHeaderFooter: true,
+    preferCSSPageSize: true,
+    footerTemplate: `
+    <p style="margin: auto;font-size: 12px;">
+      <span class="pageNumber"></span>
+        /
+      <span class="totalPages"></span>
+    </p>
+    `
   });
 
   await browser.close();
