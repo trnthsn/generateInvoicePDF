@@ -22,7 +22,7 @@ app.post('/generate_invoice', async (req, res) => {
 });
 
 async function generatePDF(html) {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.setContent(html);
   
@@ -41,7 +41,7 @@ async function generatePDF(html) {
     `
   });
 
-  await browser.close();
+  // await browser.close();
 
   return buffer;
 }
@@ -54,9 +54,9 @@ function generateAllocationsTable(allocations) {
           <td align="left">${allocation.invoice_date}</td>
           <td align="left">${allocation.invoice_number}</td>
           <td align="left">${allocation.supplier_name}</td>
-          <td align="left">${allocation.description}</td>
-          <td align="right">&euro;${allocation.vat_amount}</td>
-          <td align="right">&euro;${allocation.total}</td>
+          <td style="width: 190px; word-wrap: break-word" align="left">${allocation.description}</td>
+          <td style="width: 72px; padding-right: 8px;" align="right">&euro;${allocation.vat_amount}</td>
+          <td style="width: 72px; padding-left: 4px" align="right" >&euro;${allocation.total}</td>
       </tr>
       `;
   }
