@@ -22,7 +22,7 @@ app.post('/generate_invoice', async (req, res) => {
 });
 
 async function generatePDF(html) {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.setContent(html);
   
@@ -39,7 +39,7 @@ async function generatePDF(html) {
     `
   });
 
-  await browser.close();
+  // await browser.close();
 
   return buffer;
 }
@@ -49,12 +49,12 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td style="width: 80px; vertical-align: top;" align="left">${allocation.invoice_date}</td>
-          <td style="width: 76px; vertical-align: top;" align="left">${allocation.invoice_number}</td>
-          <td style="width: 76px; vertical-align: top; word-wrap: break-word" align="left">${allocation.supplier_name}</td>
-          <td style="width: 140px; vertical-align: top; word-wrap: break-word" align="left">${allocation.description}</td>
-          <td style="width: 72px; vertical-align: top; padding-right: 8px;" align="right">&euro;${allocation.vat_amount}</td>
-          <td style="width: 72px; vertical-align: top; padding-left: 4px" align="right" >&euro;${allocation.total}</td>
+          <td style="width: 80px; vertical-align: top; line-height: 14px;" align="left">${allocation.invoice_date}</td>
+          <td style="width: 76px; vertical-align: top; line-height: 14px;" align="left">${allocation.invoice_number}</td>
+          <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 14px;" align="left">${allocation.supplier_name}</td>
+          <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 14px;" align="left">${allocation.description}</td>
+          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 14px; font-family: 'IBM Plex Sans Condensed'" align="right">&euro;${allocation.vat_amount}</td>
+          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 14px; font-family: 'IBM Plex Sans Condensed'" align="right" >&euro;${allocation.total}</td>
       </tr>
       `;
   }
@@ -100,12 +100,17 @@ function generateInvoiceHTML(building) {
 
   const invoiceHTML = `
   <html>
+  <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
   <style>
     @page {
       margin: 15px;
     }
     body {
-      font-family: 'Inter'
+      font-family: 'Inter';
+    }
+    tr {
+      line-height: 10px;
     }
   </style>
   <body style="display: flex; justify-content: center; align-items: center">
