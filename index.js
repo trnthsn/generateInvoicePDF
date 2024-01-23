@@ -31,7 +31,7 @@ async function generatePDF(html) {
     margin: {top: 25, bottom: 25},
     displayHeaderFooter: true,
     footerTemplate: `
-    <p style="display:block; margin: auto;font-size: 8px;">
+    <p style="display:block; margin: auto; font-size: 8px; margin-top: 20px; font-family: 'Inter'">
       Pagina <span class="pageNumber"></span>
         van
       <span class="totalPages"></span>
@@ -49,12 +49,12 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td style="width: 64px;"align="left">${allocation.invoice_date}</td>
-          <td style="width: 76px;" align="left">${allocation.invoice_number}</td>
-          <td style="width: 76px; word-wrap: break-word" align="left">${allocation.supplier_name}</td>
-          <td style="width: 140px; word-wrap: break-word" align="left">${allocation.description}</td>
-          <td style="width: 72px; padding-right: 8px;" align="right">&euro;${allocation.vat_amount}</td>
-          <td style="width: 72px; padding-left: 4px" align="right" >&euro;${allocation.total}</td>
+          <td style="width: 64px; vertical-align: top;" align="left">${allocation.invoice_date}</td>
+          <td style="width: 76px; vertical-align: top;" align="left">${allocation.invoice_number}</td>
+          <td style="width: 76px; vertical-align: top; word-wrap: break-word" align="left">${allocation.supplier_name}</td>
+          <td style="width: 140px; vertical-align: top; word-wrap: break-word" align="left">${allocation.description}</td>
+          <td style="width: 72px; vertical-align: top; padding-right: 8px;" align="right">&euro;${allocation.vat_amount}</td>
+          <td style="width: 72px; vertical-align: top; padding-left: 4px" align="right" >&euro;${allocation.total}</td>
       </tr>
       `;
   }
@@ -103,6 +103,9 @@ function generateInvoiceHTML(building) {
   <style>
     @page {
       margin: 15px;
+    }
+    body {
+      font-family: 'Inter'
     }
   </style>
   <body style="display: flex; justify-content: center; align-items: center">
