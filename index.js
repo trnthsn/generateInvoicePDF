@@ -22,7 +22,7 @@ app.post('/generate_invoice', async (req, res) => {
 });
 
 async function generatePDF(html) {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   await page.setContent(html);
   
@@ -39,7 +39,7 @@ async function generatePDF(html) {
     `
   });
 
-  // await browser.close();
+  await browser.close();
 
   return buffer;
 }
