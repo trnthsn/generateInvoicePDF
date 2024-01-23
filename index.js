@@ -49,7 +49,7 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td style="width: 64px; vertical-align: top;" align="left">${allocation.invoice_date}</td>
+          <td style="width: 80px; vertical-align: top;" align="left">${allocation.invoice_date}</td>
           <td style="width: 76px; vertical-align: top;" align="left">${allocation.invoice_number}</td>
           <td style="width: 76px; vertical-align: top; word-wrap: break-word" align="left">${allocation.supplier_name}</td>
           <td style="width: 140px; vertical-align: top; word-wrap: break-word" align="left">${allocation.description}</td>
