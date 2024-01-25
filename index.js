@@ -43,6 +43,33 @@ async function generatePDF(html) {
   return buffer;
 }
 
+function formatNumber(number) {
+  // Check if the number is a round number
+  const isRound = Number.isInteger(number);
+
+  // Convert number to a string
+  let formattedNumber = number.toString();
+
+  // Split the number into integer and decimal parts
+  const parts = formattedNumber.split('.');
+
+  // Format the integer part with commas for thousands
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  // If there is a decimal part, add a comma and format it
+  if (parts[1]) {
+    parts[1] = ',' + parts[1];
+  } else {
+    // If the number is round, add ',00' for round numbers
+    parts[1] = isRound ? ',00' : '';
+  }
+
+  // Join the integer and decimal parts and return the formatted number
+  formattedNumber = parts.join('');
+
+  return formattedNumber;
+}
+
 function generateAllocationsTable(allocations) {
   let res = '';
   for (const allocation of allocations) {
@@ -52,8 +79,8 @@ function generateAllocationsTable(allocations) {
           <td style="width: 76px; vertical-align: top; line-height: 10px;" align="left">${allocation.invoice_number}</td>
           <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.supplier_name}</td>
           <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.description}</td>
-          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right">&euro;${allocation.vat_amount}</td>
-          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right" >&euro;${allocation.total}</td>
+          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right">&euro;${formatNumber(allocation.vat_amount)}</td>
+          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right" >&euro;${formatNumber(allocation.total)}</td>
       </tr>
       `;
   }
