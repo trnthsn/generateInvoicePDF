@@ -56,9 +56,10 @@ function formatNumber(number) {
   // Format the integer part with commas for thousands
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-  // If there is a decimal part, add a comma and format it
+  // If there is a decimal part, format it
   if (parts[1]) {
-    parts[1] = ',' + parts[1];
+    // Pad the decimal part with zeros if it has only one digit
+    parts[1] = ',' + (parts[1].length === 1 ? parts[1] + '0' : parts[1]);
   } else {
     // If the number is round, add ',00' for round numbers
     parts[1] = isRound ? ',00' : '';
