@@ -27,7 +27,7 @@ async function generatePDF(html) {
   await page.setContent(html)
   const buffer = await page.pdf({
     format: 'A5',
-    margin: { top: 25, bottom: 25 },
+    margin: { top: 25, bottom: 40 },
     displayHeaderFooter: true,
     footerTemplate: `
     <p style="display:block; margin: auto; font-size: 8px; margin-top: 20px; font-family: 'Inter'">
@@ -76,10 +76,10 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td style="width: 80px; vertical-align: top; line-height: 10px;" align="left">${allocation.invoice_date}</td>
-          <td style="width: 76px; vertical-align: top; line-height: 10px;" align="left">${allocation.invoice_number}</td>
-          <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.supplier_name}</td>
-          <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px;" align="left">${allocation.description}</td>
+          <td style="width: 80px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Mono'" align="left">${allocation.invoice_date}</td>
+          <td style="width: 76px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Mono'" align="left">${allocation.invoice_number}</td>
+          <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.supplier_name}</td>
+          <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.description}</td>
           <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right">&euro;${formatNumber(allocation.vat_amount)}</td>
           <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right" >&euro;${formatNumber(allocation.total)}</td>
       </tr>
@@ -96,7 +96,7 @@ function generateInvoiceContent(ledgers) {
 
     res += `
       <tr>
-          <td colspan="6" style="font-weight: bold">
+          <td colspan="6" style="font-weight: 600; font-family: 'Inter'">
               ${code} - ${name}
           </td>
       </tr>
@@ -136,6 +136,101 @@ function generateInvoiceHTML(building) {
     body {
       font-family: 'Inter';
     }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iIq129k.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+    /* cyrillic */
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1isq129k.woff2) format('woff2');
+      unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+    /* vietnamese */
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iAq129k.woff2) format('woff2');
+      unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+    }
+    /* latin-ext */
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iEq129k.woff2) format('woff2');
+      unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    /* cyrillic-ext */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZJhiI2B.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+    /* cyrillic */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZthiI2B.woff2) format('woff2');
+      unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+    /* greek-ext */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZNhiI2B.woff2) format('woff2');
+      unicode-range: U+1F00-1FFF;
+    }
+    /* greek */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZxhiI2B.woff2) format('woff2');
+      unicode-range: U+0370-03FF;
+    }
+    /* vietnamese */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZBhiI2B.woff2) format('woff2');
+      unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+    }
+    /* latin-ext */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZFhiI2B.woff2) format('woff2');
+      unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
   </style>
   <body style="display: flex; justify-content: center; align-items: center">
     <div style="margin: 10px; width: 595px; height: 842px" className='invoice'>
@@ -157,24 +252,23 @@ function generateInvoiceHTML(building) {
         <div>
           <div style="display: -webkit-box; display: -webkit-flex">
             <div style="width: 33%" align="left">
-              <p style="font-weight: bold; margin: 4px 0">${building_name}</p>
+              <p style="font-weight: 600; margin: 4px 0">${building_name}</p>
               <p style="margin: 4px 0">${company_number}</p>
               <p style="margin: 4px 0">${address_line_1}</p>
               <p style="margin: 4px 0">${address_line_2}</p>
             </div>
             <div style="width: 33%" align="center">
-              <p style="font-weight: bold; margin: 4px 0">Facturenlijst - grootboekrekening</p>
+              <p style="font-weight: 600; margin: 4px 0">Facturenlijst - grootboekrekening</p>
               <p style="margin: 4px 0">${date_start} - ${date_end}</p>
             </div>
             <div style="width: 33%" align="right">
-              <p style="font-weight: bold; margin: 4px 0">${export_date}</p>
+              <p style="font-weight: 600; margin: 4px 0">${export_date}</p>
             </div>
           </div>
           <div>
             <table
               style="
                 width: 100%;
-                margin-top: 16px;
                 border: 0;
                 border-spacing: 0px 8px;
                 line-height: 16px;
@@ -189,7 +283,7 @@ function generateInvoiceHTML(building) {
                   style="
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     padding-right: 8px;
-                    font-weight: bold;
+                    font-weight: 600;
                   "
                   align="left"
                 >
@@ -199,7 +293,8 @@ function generateInvoiceHTML(building) {
                   style="
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     padding-right: 8px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    font-family: 'Inter';
                   "
                   align="left"
                 >
@@ -209,7 +304,8 @@ function generateInvoiceHTML(building) {
                   style="
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     padding-right: 8px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    font-family: 'Inter';
                   "
                   align="left"
                 >
@@ -219,7 +315,8 @@ function generateInvoiceHTML(building) {
                   style="
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     padding-right: 8px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    font-family: 'Inter';
                   "
                   align="left"
                 >
@@ -230,7 +327,8 @@ function generateInvoiceHTML(building) {
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     width: 72px;
                     padding-right: 8px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    font-family: 'Inter';
                   "
                   align="right"
                 >
@@ -241,11 +339,12 @@ function generateInvoiceHTML(building) {
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     width: 72px;
                     padding-left: 4px;
-                    font-weight: bold;
+                    font-weight: 600;
+                    font-family: 'Inter';
                   "
                   align="right"
                 >
-                  Total
+                  Totaal
                 </td>
               </tr>
               ${content}
@@ -271,33 +370,35 @@ function generateInvoiceHTML(building) {
                 style="
                   border-top: 1px solid rgba(0, 0, 0, 0.1);
                   padding-right: 8px;
-                  font-weight: bold;
+                  font-weight: 600;
                 "
                 align="left"
               >
-                Total
+                Totaal
               </td>
               <td
                 style="
                   border-top: 1px solid rgba(0, 0, 0, 0.1);
                   width: 72px;
                   padding-right: 8px;
-                  font-weight: bold;
+                  font-weight: 600;
+                  font-family: 'IBM Plex Mono'
                 "
                 align="right"
               >
-                &euro;${sum_vat_amount}
+                &euro;${formatNumber(sum_vat_amount)}
               </td>
               <td
                 style="
                   border-top: 1px solid rgba(0, 0, 0, 0.1);
                   width: 72px;
                   padding-left: 4px;
-                  font-weight: bold;
+                  font-weight: 600;
+                  font-family: 'IBM Plex Mono'
                 "
                 align="right"
               >
-                &euro;${sum_total_amount}
+                &euro;${formatNumber(sum_total_amount)}
               </td>
             </tr>
           </table>
