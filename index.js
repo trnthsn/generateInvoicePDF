@@ -22,7 +22,7 @@ app.post('/generate_invoice', async (req, res) => {
 });
 
 async function generatePDF(html) {
-  const browser = await puppeteer.launch({ headless: 'new'});
+  const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   await page.setContent(html)
   const buffer = await page.pdf({
@@ -77,12 +77,12 @@ function generateAllocationsTable(allocations) {
   for (const allocation of allocations) {
     res += `
       <tr>
-          <td style="width: 80px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Mono'" align="left">${allocation.invoice_date}</td>
-          <td style="width: 76px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Mono'" align="left">${allocation.invoice_number}</td>
+          <td style="width: 80px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${allocation.invoice_date}</td>
+          <td style="width: 76px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${allocation.invoice_number}</td>
           <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.supplier_name}</td>
           <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.description}</td>
-          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right">&euro;${formatNumber(allocation.vat_amount)}</td>
-          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Mono'" align="right" >&euro;${formatNumber(allocation.total)}</td>
+          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right">&euro;${formatNumber(allocation.vat_amount)}</td>
+          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right" >&euro;${formatNumber(allocation.total)}</td>
       </tr>
       `;
   }
@@ -130,50 +130,59 @@ function generateInvoiceHTML(building) {
   <html>
   <style>
     @import url(https://fonts.googleapis.com/css?family=Inter)
-    @import url(https://fonts.googleapis.com/css?family=IBM Plex Mono)
+    @import url(https://fonts.googleapis.com/css?family=IBM Plex Sans)
     @page {
       margin: 15px;
     }
     body {
       font-family: 'Inter';
     }
+    /* cyrillic-ext */
     @font-face {
-      font-family: 'IBM Plex Mono';
+      font-family: 'IBM Plex Sans';
       font-style: normal;
       font-weight: 400;
-      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iIq129k.woff2) format('woff2');
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdzeFb5N.woff2) format('woff2');
       unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
     }
     /* cyrillic */
     @font-face {
-      font-family: 'IBM Plex Mono';
+      font-family: 'IBM Plex Sans';
       font-style: normal;
       font-weight: 400;
-      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1isq129k.woff2) format('woff2');
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdXeFb5N.woff2) format('woff2');
       unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+    /* greek */
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdLeFb5N.woff2) format('woff2');
+      unicode-range: U+0370-03FF;
     }
     /* vietnamese */
     @font-face {
-      font-family: 'IBM Plex Mono';
+      font-family: 'IBM Plex Sans';
       font-style: normal;
       font-weight: 400;
-      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iAq129k.woff2) format('woff2');
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhd7eFb5N.woff2) format('woff2');
       unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
     }
     /* latin-ext */
     @font-face {
-      font-family: 'IBM Plex Mono';
+      font-family: 'IBM Plex Sans';
       font-style: normal;
       font-weight: 400;
-      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1iEq129k.woff2) format('woff2');
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhd_eFb5N.woff2) format('woff2');
       unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
     }
     /* latin */
     @font-face {
-      font-family: 'IBM Plex Mono';
+      font-family: 'IBM Plex Sans';
       font-style: normal;
       font-weight: 400;
-      src: url(https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2) format('woff2');
+      src: url(https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdHeFQ.woff2) format('woff2');
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
     /* cyrillic-ext */
@@ -383,7 +392,7 @@ function generateInvoiceHTML(building) {
                   width: 72px;
                   padding-right: 8px;
                   font-weight: 600;
-                  font-family: 'IBM Plex Mono'
+                  font-family: 'IBM Plex Sans'
                 "
                 align="right"
               >
@@ -395,7 +404,7 @@ function generateInvoiceHTML(building) {
                   width: 72px;
                   padding-left: 4px;
                   font-weight: 600;
-                  font-family: 'IBM Plex Mono'
+                  font-family: 'IBM Plex Sans'
                 "
                 align="right"
               >
