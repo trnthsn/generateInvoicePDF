@@ -11,17 +11,17 @@ app.post('/generate_invoice', async (req, res) => {
   const { building } = req.body;
 
   // Generate HTML content for the invoice
-  const html = generateInvoiceHTML(building);
+  const {invoiceHtml, pageMultilang, of} = generateInvoiceHTML(building);
 
   // Convert HTML to PDF using Puppeteer
-  const buffer = await generatePDF(html);
+  const buffer = await generatePDF(invoiceHtml, pageMultilang, of);
 
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
   res.send(buffer);
 });
 
-async function generatePDF(html) {
+async function generatePDF(html, pageMultilang, of) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   await page.setContent(html)
@@ -32,8 +32,8 @@ async function generatePDF(html) {
     scale: 1.25,
     footerTemplate: `
     <p style="display:block; margin: auto; font-size: 10px; margin-top: 40px; font-family: 'Inter'">
-      Pagina <span class="pageNumber"></span>
-        van
+      ${pageMultilang} <span class="pageNumber"></span>
+        ${of}
       <span class="totalPages"></span>
     </p>
     `
@@ -73,7 +73,7 @@ function formatNumber(number) {
 }
 
 function generateAllocationsTable(allocations) {
-  let res = '';
+  let res = ``;
   for (const allocation of allocations) {
     res += `
       <tr>
@@ -110,6 +110,52 @@ function generateInvoiceContent(ledgers) {
   return res;
 }
 
+function mapMultilangue(language) {
+  const multilanguage = {
+    EN: {
+      date: 'Date',
+      description: 'Description',
+      contact_supplier: 'Supplier',
+      invoice_total_short: 'Total',
+      page: 'Page',
+      of : 'of',
+      invoice_number_short: 'Invoice no.',
+      vat_percentage: 'VAT'
+    },
+    NL: {
+      date: 'Datum',
+      description: 'Omschrijving',
+      contact_supplier: 'Leverancier',
+      invoice_total_short: 'Totaal',
+      page: 'Pagina',
+      of : 'van',
+      invoice_number_short: 'Factuurnr.',
+      vat_percentage: 'BTW'
+    },
+    FR: {
+      date: 'Date',
+      description: 'Description',
+      contact_supplier: 'Fournisseur',
+      invoice_total_short: 'Total',
+      page: 'Page',
+      of : 'sur',
+      invoice_number_short: 'Facture no.',
+      vat_percentage: 'TVA,'
+    },
+    DE: {
+      date: 'Datum',
+      description: 'Beschreibung',
+      contact_supplier: ':Lieferant',
+      invoice_total_short: 'Gesamt',
+      page: 'Seite',
+      of : 'von',
+      invoice_number_short: 'Rechnungsnr.',
+      vat_percentage: 'MwSt,'
+    },
+  }
+  return multilanguage[language]
+}
+
 function generateInvoiceHTML(building) {
   const {
     name: building_name,
@@ -121,8 +167,12 @@ function generateInvoiceHTML(building) {
     sum_total_amount,
     sum_vat_amount,
     export_date,
-    ledgers
+    ledgers,
+    language
   } = building
+
+  const { date, description, contact_supplier, invoice_total_short, 
+          page, of, invoice_number_short, vat_percentage } = mapMultilangue(language)
 
   const content = generateInvoiceContent(ledgers)
 
@@ -297,7 +347,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="left"
                 >
-                  Datum
+                  ${date}
                 </td>
                 <td
                   style="
@@ -308,7 +358,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="left"
                 >
-                  Factuurnr.
+                  ${invoice_number_short}
                 </td>
                 <td
                   style="
@@ -319,7 +369,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="left"
                 >
-                  Leverancier.
+                  ${contact_supplier}
                 </td>
                 <td
                   style="
@@ -330,7 +380,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="left"
                 >
-                  Omschrijving
+                  ${description}
                 </td>
                 <td
                   style="
@@ -342,7 +392,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="right"
                 >
-                  BTW
+                  ${vat_percentage}
                 </td>
                 <td
                   style="
@@ -354,7 +404,7 @@ function generateInvoiceHTML(building) {
                   "
                   align="right"
                 >
-                  Totaal
+                  ${invoice_total_short}
                 </td>
               </tr>
               ${content}
@@ -419,7 +469,7 @@ function generateInvoiceHTML(building) {
 </html>
     `;
 
-  return invoiceHTML;
+  return {invoiceHtml: invoiceHTML, pageMultilang: page, of: of};
 }
 
 app.listen(port, () => {
