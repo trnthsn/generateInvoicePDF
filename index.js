@@ -112,7 +112,7 @@ function generateInvoiceContent(ledgers) {
 
 function mapMultilangue(language) {
   const multilanguage = {
-    EN: {
+    "EN": {
       date: 'Date',
       description: 'Description',
       contact_supplier: 'Supplier',
@@ -122,7 +122,7 @@ function mapMultilangue(language) {
       invoice_number_short: 'Invoice no.',
       vat_percentage: 'VAT'
     },
-    NL: {
+    "NL": {
       date: 'Datum',
       description: 'Omschrijving',
       contact_supplier: 'Leverancier',
@@ -132,7 +132,7 @@ function mapMultilangue(language) {
       invoice_number_short: 'Factuurnr.',
       vat_percentage: 'BTW'
     },
-    FR: {
+    "FR": {
       date: 'Date',
       description: 'Description',
       contact_supplier: 'Fournisseur',
@@ -142,7 +142,7 @@ function mapMultilangue(language) {
       invoice_number_short: 'Facture no.',
       vat_percentage: 'TVA,'
     },
-    DE: {
+    "DE": {
       date: 'Datum',
       description: 'Beschreibung',
       contact_supplier: ':Lieferant',
