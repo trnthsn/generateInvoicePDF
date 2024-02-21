@@ -73,18 +73,42 @@ function formatNumber(number) {
 }
 
 function generateAllocationsTable(allocations) {
-  let res = ``;
-  for (const allocation of allocations) {
-    res += `
-      <tr>
-          <td style="width: 80px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${allocation.invoice_date}</td>
-          <td style="width: 76px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${allocation.invoice_number}</td>
-          <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.supplier_name}</td>
-          <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${allocation.description}</td>
-          <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right">&euro;${formatNumber(allocation.vat_amount)}</td>
-          <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right" >&euro;${formatNumber(allocation.total)}</td>
-      </tr>
-      `;
+  let res = '';
+  const groupByDistributionKey = allocations.reduce((accumulator, currentValue) => {
+    const key = currentValue.distribution_key_name;
+    if (!accumulator[key]) {
+      accumulator[key] = [];
+    }
+    accumulator[key].push(currentValue);
+    return accumulator;
+  }, {})
+
+  for (const key in groupByDistributionKey) {
+    if (Object.hasOwnProperty.call(groupByDistributionKey, key)) {
+      const arrayForCurrentKey = groupByDistributionKey[key];
+      // console.log(`Key: ${key}`)
+      const distribution_name = key ? key : '<Verdeelsleutel>'
+      // console.log(key)
+      res += `
+        <tr>
+          <td colspan = '6'>
+            ${distribution_name}
+          </td>
+        </tr>
+      `
+      for (const item of arrayForCurrentKey) {
+        res += `
+        <tr>
+            <td style="width: 80px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${item.invoice_date}</td>
+            <td style="width: 76px; vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left">${item.invoice_number}</td>
+            <td style="width: 76px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${item.supplier_name}</td>
+            <td style="width: 140px; vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left">${item.description}</td>
+            <td style="width: 72px; vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right">&euro;${formatNumber(item.vat_amount)}</td>
+            <td style="width: 72px; vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right" >&euro;${formatNumber(item.total)}</td>
+        </tr>
+        `;        
+      }
+    }
   }
   return res;
 }
