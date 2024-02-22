@@ -49,7 +49,7 @@ function formatNumber(number) {
   const isRound = Number.isInteger(number);
 
   // Convert number to a string
-  let formattedNumber = number.toString();
+  let formattedNumber = number?.toString() ?? '0';
 
   // Split the number into integer and decimal parts
   const parts = formattedNumber.split('.');
@@ -122,6 +122,8 @@ function generateInvoiceContent(ledgers, empty_distribution_multilang) {
   for (const ledger of ledgers) {
     const code = ledger.code;
     const name = ledger.name;
+    const total = ledger.total;
+    const total_vat = ledger.total_vat
 
     res += `
       <tr>
@@ -134,6 +136,16 @@ function generateInvoiceContent(ledgers, empty_distribution_multilang) {
     const allocations = ledger.cost_allocations;
     const allocationsTable = generateAllocationsTable(allocations, empty_distribution_multilang);
     res += allocationsTable;
+    res += `
+        <tr>
+            <td style="width: 80px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left"></td>
+            <td style="width: 76px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; line-height: 10px; font-family: 'IBM Plex Sans'" align="left"></td>
+            <td style="width: 76px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left"></td>
+            <td style="width: 140px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; word-wrap: break-word; line-height: 10px; font-family: 'Inter'" align="left"></td>
+            <td style="width: 72px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; padding-right: 8px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right">&euro;${formatNumber(total_vat)}</td>
+            <td style="width: 72px; border-top: 1px solid rgba(0, 0, 0, 0.1); vertical-align: top; padding-left: 4px; line-height: 10px; font-family: 'IBM Plex Sans'" align="right" >&euro;${formatNumber(total)}</td>
+        </tr>
+        `;    
   }
   return res;
 }
