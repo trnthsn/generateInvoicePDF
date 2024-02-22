@@ -72,7 +72,7 @@ function formatNumber(number) {
   return formattedNumber;
 }
 
-function generateAllocationsTable(allocations) {
+function generateAllocationsTable(allocations, empty_distribution_multilang) {
   let res = '';
   const groupByDistributionKey = allocations.reduce((accumulator, currentValue) => {
     const key = currentValue.distribution_key_name;
@@ -86,9 +86,7 @@ function generateAllocationsTable(allocations) {
   for (const key in groupByDistributionKey) {
     if (Object.hasOwnProperty.call(groupByDistributionKey, key)) {
       const arrayForCurrentKey = groupByDistributionKey[key];
-      // console.log(`Key: ${key}`)
-      const distribution_name = key ? key : '<Verdeelsleutel>'
-      // console.log(key)
+      const distribution_name = key !== 'undefined' ? key : empty_distribution_multilang
       res += `
         <tr>
           <td colspan = '6'>
@@ -113,7 +111,7 @@ function generateAllocationsTable(allocations) {
   return res;
 }
 
-function generateInvoiceContent(ledgers) {
+function generateInvoiceContent(ledgers, empty_distribution_multilang) {
   let res = '';
   for (const ledger of ledgers) {
     const code = ledger.code;
@@ -128,7 +126,7 @@ function generateInvoiceContent(ledgers) {
       `;
 
     const allocations = ledger.cost_allocations;
-    const allocationsTable = generateAllocationsTable(allocations);
+    const allocationsTable = generateAllocationsTable(allocations, empty_distribution_multilang);
     res += allocationsTable;
   }
   return res;
@@ -144,7 +142,8 @@ function mapMultilangue(language) {
       page: 'Page',
       of : 'of',
       invoice_number_short: 'Invoice no.',
-      vat_percentage: 'VAT'
+      vat_percentage: 'VAT',
+      empty_distribution_multilang: 'No distribution key'
     },
     "NL": {
       date: 'Datum',
@@ -154,7 +153,8 @@ function mapMultilangue(language) {
       page: 'Pagina',
       of : 'van',
       invoice_number_short: 'Factuurnr.',
-      vat_percentage: 'BTW'
+      vat_percentage: 'BTW',
+      empty_distribution_multilang: 'Geen verdeelsleutel'
     },
     "FR": {
       date: 'Date',
@@ -164,7 +164,8 @@ function mapMultilangue(language) {
       page: 'Page',
       of : 'sur',
       invoice_number_short: 'Facture no.',
-      vat_percentage: 'TVA,'
+      vat_percentage: 'TVA',
+      empty_distribution_multilang: 'Pas de clé de distribution'
     },
     "DE": {
       date: 'Datum',
@@ -174,7 +175,8 @@ function mapMultilangue(language) {
       page: 'Seite',
       of : 'von',
       invoice_number_short: 'Rechnungsnr.',
-      vat_percentage: 'MwSt,'
+      vat_percentage: 'MwSt',
+      empty_distribution_multilang: 'Kein Verteilungsschlüssel'
     },
   }
   return multilanguage[language]
@@ -196,9 +198,9 @@ function generateInvoiceHTML(building) {
   } = building
 
   const { date, description, contact_supplier, invoice_total_short, 
-          page, of, invoice_number_short, vat_percentage } = mapMultilangue(language)
+          page, of, invoice_number_short, vat_percentage, empty_distribution_multilang } = mapMultilangue(language)
 
-  const content = generateInvoiceContent(ledgers)
+  const content = generateInvoiceContent(ledgers, empty_distribution_multilang)
 
   const invoiceHTML = `
   <html>
