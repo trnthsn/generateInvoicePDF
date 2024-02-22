@@ -72,10 +72,16 @@ function formatNumber(number) {
   return formattedNumber;
 }
 
+function isEmptyOrNull(value) {
+  return value === undefined || value === null || value === "";
+}
+
 function generateAllocationsTable(allocations, empty_distribution_multilang) {
   let res = '';
   const groupByDistributionKey = allocations.reduce((accumulator, currentValue) => {
-    const key = currentValue.distribution_key_name;
+    const key = isEmptyOrNull(currentValue.distribution_key_name)
+    ? "undefined"
+    : currentValue.distribution_key_name;
     if (!accumulator[key]) {
       accumulator[key] = [];
     }
