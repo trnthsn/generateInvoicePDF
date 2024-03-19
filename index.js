@@ -347,7 +347,7 @@ function generateInvoiceHTML(building) {
           width: 100%;
           line-height: 16px;
           word-wrap: break-word;
-          font-size: 11px;
+          font-size: 10px;
           font-family: Inter;
           justify-content: space-between;
           -ms-flex-pack: justify;
@@ -377,7 +377,7 @@ function generateInvoiceHTML(building) {
                 border-spacing: 0px 8px;
                 line-height: 16px;
                 word-wrap: break-word;
-                font-size: 11px;
+                font-size: 10px;
                 font-family: Inter;
               "
             >
@@ -464,7 +464,7 @@ function generateInvoiceHTML(building) {
               border-spacing: 0px 8px;
               line-height: 16px;
               word-wrap: break-word;
-              font-size: 11px;
+              font-size: 10px;
               font-family: Inter;
             "
           >
